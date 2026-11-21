@@ -1,21 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { Mail, Phone, Github, Linkedin, ArrowUpRight, Copy, Check } from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowUpRight, Copy, Check } from 'lucide-react';
 
 export function Contact() {
   const [copiedEmail, setCopiedEmail] = React.useState(false);
-  const [copiedPhone, setCopiedPhone] = React.useState(false);
 
-  const copyToClipboard = (text: string, type: 'email' | 'phone') => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    if (type === 'email') {
-      setCopiedEmail(true);
-      setTimeout(() => setCopiedEmail(false), 2000);
-    } else {
-      setCopiedPhone(true);
-      setTimeout(() => setCopiedPhone(false), 2000);
-    }
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
   };
 
   const contactItems = [
@@ -27,17 +21,6 @@ export function Contact() {
       icon: Mail,
       isCopyable: true,
       copied: copiedEmail,
-      type: 'email' as const,
-    },
-    {
-      id: 'phone',
-      label: 'Phone',
-      value: '+91 9353916267',
-      href: 'tel:+919353916267',
-      icon: Phone,
-      isCopyable: true,
-      copied: copiedPhone,
-      type: 'phone' as const,
     },
     {
       id: 'github',
@@ -69,7 +52,7 @@ export function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
           {contactItems.map((item) => (
             <div
               key={item.id}
@@ -98,7 +81,7 @@ export function Contact() {
                 {item.isCopyable && (
                   <button
                     type="button"
-                    onClick={() => copyToClipboard(item.value, item.type!)}
+                    onClick={() => copyToClipboard(item.value)}
                     aria-label={`Copy ${item.label}`}
                     title={`Copy ${item.label}`}
                     className="p-1.5 rounded text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
